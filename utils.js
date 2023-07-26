@@ -28,6 +28,8 @@ module.exports = {
 
             const data = response.data;
 
+            console.log("Pre inscription data");
+            console.log(data);
             if (!data.preInscriptionId || data.preInscriptionId?.length === 0){
                 return null;
             }

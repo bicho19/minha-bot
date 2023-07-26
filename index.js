@@ -8,9 +8,10 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+const port = process.env.PORT || 3030;
+const host = process.env.HOST || '0.0.0.0';
+app.listen(port, host, 100,() => {
+    console.log(`Server running at ${host}:${port}`);
 });
 // replace the value below with the Telegram token you receive from @BotFather
 const token = "6570024376:AAEBM9gdTyX8ljKY0xpQY_pZeE6PbgwZQXE";
@@ -20,11 +21,10 @@ const bot = new TelegramBot(token, { polling: true });
 bot.on("message", async (msg) => {
     const hachemiChatId = "248737692";
     const chatId = msg.chat.id;
-    const userInput = msg.text;
 
-    console.log(msg)
     try {
 
+        console.log('running checks ...')
         // Fetch anem pre-inscription
         const preInscriptionId = await getPreInscriptionId("1234567", "123456")
         if (!preInscriptionId) {
@@ -63,6 +63,7 @@ bot.on("message", async (msg) => {
         await bot.sendMessage(hachemiChatId, message);
         await bot.sendMessage(chatId, message);
     } catch (error) {
-
+        console.log('Something happened while checking');
+        console.log(error)
     }
 });
